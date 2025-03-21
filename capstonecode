@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KodaikanalEats Dining Platform</title>
+    <link rel="stylesheet" href="style1.css">
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #EDE4D8;
+            background-image: url('file:///C:/Users/anoop/Downloads/background2.webp');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            min-height: 100vh;
+        }
+        #login-form {
+            background-color: rgba(245, 232, 199, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: auto;
+            margin-top: 100px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #4A2C2A;
+            color: #F5E8C7;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            background: #333333;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #F5E8C7;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+        nav ul li a:hover {
+            background: #4A2C2A;
+        }
+        main {
+            padding: 20px;
+            padding-bottom: 60px;
+        }
+        .form-section {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: rgba(245, 232, 199, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333333;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            color: #333333;
+            background: rgba(245, 232, 199, 0.9);
+            border: 1px solid #4A2C2A;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #4A2C2A;
+            color: #F5E8C7;
+            width: 100%;
+        }
+        .welcome-message {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 50px;
+            color: #D4A017;
+        }
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .restaurant-item {
+            text-align: center;
+            background-color: rgba(245, 232, 199, 0.9);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .restaurant-item img {
+            max-width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        .menu-item {
+            display: none;
+            margin-top: 10px;
+            text-align: left;
+            color: #333333;
+        }
+        #thank-you-message, #billing-thank-you {
+            display: none;
+            text-align: center;
+            margin: 20px;
+        }
+        h1, h2, p {
+            color: #D4A017;
+            font-weight: bold;
+        }
+        .start-booking-button {
+            background-color: #D4A017;
+            color: #4A2C2A;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #333333;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            cursor: pointer;
+        }
+        .start-booking-button:hover {
+            background-color: #4A2C2A;
+            color: #F5E8C7;
+        }
+        #contact-us {
+            padding: 20px;
+        }
+        #contact-us h2 {
+            color: #D4A017;
+            font-weight: bold;
+        }
+        #contact-us form {
+            margin-top: 20px;
+        }
+        #contact-us .form-group input,
+        #contact-us .form-group textarea {
+            padding: 10px;
+        }
+        #contact-us #thank-you-message {
+            display: none;
+            text-align: center;
+        }
+        .table-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .table-option {
+            text-align: center;
+            background-color: rgba(245, 232, 199, 0.9);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .table-option:hover {
+            transform: scale(1.05);
+        }
+        .table-option.selected {
+            border: 3px solid #4A2C2A;
+        }
+        .table-option img {
+            max-width: 150px;
+            height: auto;
+        }
+        input[type="submit"], button {
+            background-color: #D4A017;
+            color: #4A2C2A;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #333333;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #4A2C2A;
+            color: #F5E8C7;
+        }
+        #billing-amount {
+            background-color: #EDE4D8;
+            cursor: not-allowed;
+        }
+        .section-content {
+            display: none; /* Ensure all sections are hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="login-form" class="form-section">
+        <h1>Login</h1>
+        <form id="login" aria-label="Login Form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required aria-required="true">
+            </div>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <header>
+            <h1>Welcome to KodaikanalEats</h1>
+            <p>Welcome, <span id="user-display" aria-live="polite"></span> | <a href="#" onclick="logout()" style="color: #F5E8C7;" aria-label="Logout">Logout</a></p>
+        </header>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#restaurants" onclick="showSection('restaurants')">Restaurants</a></li>
+                <li><a href="#reservations" onclick="showSection('reservations')">Reservations</a></li>
+                <li><a href="#billing" onclick="showSection('billing')">Billing</a></li>
+                <li><a href="#contact-us" onclick="showSection('contact-us')">Contact</a></li>
+            </ul>
+        </nav>
+        <main>
+            <!-- Home Section -->
+            <section id="home" class="section-content">
+                <div class="welcome-message">WELCOME TO KODAIKANAL EATS!</div>
+            </section>
+
+            <!-- Restaurants Section -->
+            <section id="restaurants" class="section-content">
+                <h2>Available Restaurants</h2>
+                <div class="restaurant-grid">
+                    <div class="restaurant-item" onclick="showMenu('spicy-valley-menu')">
+                        <img src="file:///C:/Users/anoop/Downloads/spicy%20valley.webp" alt="Spicy Valley Restaurant">
+                        <h3>Spicy Valley</h3>
+                        <p>Specialty: South Indian</p>
+                        <div id="spicy-valley-menu" class="menu-item">
+                            <h4>Menu:</h4>
+                            <ul>
+                                <li>Masala Dosa</li>
+                                <li>Idli Sambhar</li>
+                                <li>Vada</li>
+                                <li>Uttapam</li>
+                                <li>Pongal</li>
+                                <li>Rava Dosa</li>
+                                <li>Medu Vada</li>
+                                <li>Upma</li>
+                                <li>Sambhar Rice</li>
+                                <li>Coconut Chutney</li>
+                                <li>Filter Coffee</li>
+                                <li>Bisi Bele Bath</li>
+                                <li>Curd Rice</li>
+                                <li>Rasam</li>
+                                <li>Vegetable Biryani</li>
+                                <li>Paniyaram</li>
+                                <li>Parotta with Kurma</li>
+                            </ul>
+                            <button onclick="bookReservation('Spicy Valley')">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="restaurant-item" onclick="showMenu('south-spice-menu')">
+                        <img src="file:///C:/Users/anoop/Downloads/southspice.webp" alt="South Spice Restaurant">
+                        <h3>South Spice</h3>
+                        <p>Specialty: North Indian</p>
+                        <div id="south-spice-menu" class="menu-item">
+                            <h4>Menu:</h4>
+                            <ul>
+                                <li>Butter Chicken</li>
+                                <li>Paneer Tikka</li>
+                                <li>Naan</li>
+                                <li>Dal Makhani</li>
+                                <li>Aloo Paratha</li>
+                                <li>Chole Bhature</li>
+                                <li>Palak Paneer</li>
+                                <li>Tandoori Roti</li>
+                                <li>Chicken Biryani</li>
+                                <li>Mutton Rogan Josh</li>
+                                <li>Jeera Rice</li>
+                                <li>Gobi Manchurian</li>
+                                <li>Punjabi Lassi</li>
+                                <li>Matar Paneer</li>
+                                <li>Raita</li>
+                                <li>Kulcha</li>
+                                <li>Shahi Paneer</li>
+                                <li>Malai Kofta</li>
+                            </ul>
+                            <button onclick="bookReservation('South Spice')">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="restaurant-item" onclick="showMenu('dragon-wok-menu')">
+                        <img src="file:///C:/Users/anoop/Downloads/dragonwok.webp" alt="Dragon Wok Restaurant">
+                        <h3>Dragon Wok</h3>
+                        <p>Specialty: Chinese</p>
+                        <div id="dragon-wok-menu" class="menu-item">
+                            <h4>Menu:</h4>
+                            <ul>
+                                <li>Spring Rolls</li>
+                                <li>Fried Rice</li>
+                                <li>Sweet and Sour Chicken</li>
+                                <li>Hakka Noodles</li>
+                                <li>Manchurian Chicken</li>
+                                <li>Chilli Garlic Prawns</li>
+                                <li>Vegetable Dumplings</li>
+                                <li>Kung Pao Chicken</li>
+                                <li>Szechuan Noodles</li>
+                                <li>Hot and Sour Soup</li>
+                                <li>Stir-fried Vegetables</li>
+                                <li>Chicken Chow Mein</li>
+                                <li>Pork Ribs</li>
+                                <li>Steamed Bao Buns</li>
+                                <li>Soy Sauce Tofu</li>
+                                <li>Egg Drop Soup</li>
+                            </ul>
+                            <button onclick="bookReservation('Dragon Wok')">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="restaurant-item" onclick="showMenu('continental-delight-menu')">
+                        <img src="file:///C:/Users/anoop/Downloads/continental%20delight.webp" alt="Continental Delight Restaurant">
+                        <h3>Continental Delight</h3>
+                        <p>Specialty: Continental</p>
+                        <div id="continental-delight-menu" class="menu-item">
+                            <h4>Menu:</h4>
+                            <ul>
+                                <li>Spaghetti</li>
+                                <li>Grilled Chicken</li>
+                                <li>Caesar Salad</li>
+                                <li>Fish and Chips</li>
+                                <li>Pasta Alfredo</li>
+                                <li>Beef Stroganoff</li>
+                                <li>Roasted Lamb</li>
+                                <li>Vegetable Lasagna</li>
+                                <li>Garlic Bread</li>
+                                <li>Chicken Parmesan</li>
+                                <li>Mushroom Risotto</li>
+                                <li>Bruschetta</li>
+                                <li>Quiche Lorraine</li>
+                                <li>Potato Wedges</li>
+                                <li>Tiramisu</li>
+                                <li>Grilled Salmon</li>
+                                <li>Minestrone Soup</li>
+                                <li>Chocolate Mousse</li>
+                                <li>Apple Pie</li>
+                            </ul>
+                            <button onclick="bookReservation('Continental Delight')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="start-booking-button" onclick="showSection('reservations')">Start Booking</button>
+            </section>
+
+            <!-- Reservations Section -->
+            <section id="reservations" class="section-content">
+                <h2>Your Reservation</h2>
+                <img src="file:///C:/Users/anoop/Downloads/reservationtable.webp" alt="Reservation Table" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+                <form id="reservations-form" class="form-section" action="#">
+                    <input type="hidden" name="restaurant-name" id="reservation-restaurant">
+                    <input type="hidden" name="form_type" value="reservations">
+                    <input type="hidden" name="table-category" id="table-category" value="">
+                    <input type="hidden" name="calculated-amount" id="calculated-amount" value="0">
+                    <div class="form-group">
+                        <label for="reservation-date">Reservation Date:</label>
+                        <input type="date" id="reservation-date" name="reservation-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="number-of-guests">Number of Guests:</label>
+                        <input type="number" id="number-of-guests" name="number-of-guests" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Table Category:</label>
+                        <div class="table-selection">
+                            <div class="table-option" data-category="standard" onclick="selectTable('standard')">
+                                <img src="file:///C:/Users/anoop/Downloads/standard%20table.webp" alt="Standard Table">
+                                <p>Standard (Up to 4 guests)</p>
+                            </div>
+                            <div class="table-option" data-category="family" onclick="selectTable('family')">
+                                <img src="file:///C:/Users/anoop/Downloads/familytable.webp" alt="Family Table">
+                                <p>Family (5+ guests)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" value="Book Now">
+                </form>
+            </section>
+
+            <!-- Billing Section -->
+            <section id="billing" class="section-content">
+                <h2>Billing</h2>
+                <form id="billing-form" class="form-section" action="process_form.php" method="POST" onsubmit="return completeBooking()">
+                    <input type="hidden" name="form_type" value="billing">
+                    <input type="hidden" name="restaurant-name" id="billing-restaurant">
+                    <input type="hidden" name="table-category" id="billing-table-category">
+                    <div class="form-group">
+                        <label for="billing-amount">Amount (₹):</label>
+                        <input type="number" id="billing-amount" name="billing-amount" min="0" step="0.01" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="billing-method">Payment Method:</label>
+                        <select id="billing-method" name="billing-method" required>
+                            <option value="credit">Credit Card</option>
+                            <option value="debit">Debit Card</option>
+                            <option value="cash">Cash</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Submit Payment">
+                </form>
+                <div id="billing-thank-you" class="form-section">
+                    <h2 style="color: #4A2C2A; font-weight: bold;">Thank You for Your Booking!</h2>
+                    <p>Your reservation has been successfully completed. We look forward to serving you!</p>
+                </div>
+            </section>
+
+            <!-- Contact Us Section -->
+            <section id="contact-us" class="section-content">
+                <h2>Contact Us</h2>
+                <p>If you have any questions, feedback, or suggestions, feel free to get in touch with us. We would love to hear from you!</p>
+                <form id="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="contact-name">Your Name:</label>
+                        <input type="text" id="contact-name" name="contact-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Your Email:</label>
+                        <input type="email" id="contact-email" name="contact-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Your Message:</label>
+                        <textarea id="contact-message" name="contact-message" rows="5" required></textarea>
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+                <div id="thank-you-message" class="form-section" style="display: none;">
+                    <h2 style="color: #4A2C2A; font-weight: bold;">Thank You for Contacting Us!</h2>
+                    <p>We will get back to you as soon as possible.</p>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>© <span id="current-year"></span> KodaikanalEats. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Login authentication
+        document.getElementById('login').addEventListener('submit', function(event) {
+            event.preventDefault();
+            try {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!username || !password) {
+                    alert('Please enter both username and password.');
+                    return;
+                }
+
+                if (username === 'admin' && password === 'password') {
+                    document.getElementById('main-content').style.display = 'block';
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('user-display').innerText = username;
+                } else {
+                    alert('Invalid credentials, please try again.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login.');
+            }
+        });
+
+        function logout() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('thank-you-message').style.display = 'none';
+            document.getElementById('billing-thank-you').style.display = 'none';
+            document.getElementById('login').reset();
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section-content');
+            console.log('Showing section:', sectionId);
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function showMenu(restaurantId) {
+            const menus = document.querySelectorAll('.menu-item');
+            menus.forEach(menu => menu.style.display = 'none');
+            document.getElementById(restaurantId).style.display = 'block';
+        }
+
+        function bookReservation(restaurantName) {
+            document.getElementById('reservation-restaurant').value = restaurantName;
+            document.getElementById('billing-restaurant').value = restaurantName;
+            showSection('reservations');
+        }
+
+        function selectTable(category) {
+            const tableOptions = document.querySelectorAll('.table-option');
+            tableOptions.forEach(option => option.classList.remove('selected'));
+            document.querySelector(`.table-option[data-category="${category}"]`).classList.add('selected');
+            document.getElementById('table-category').value = category;
+        }
+
+        function calculateAmount(restaurantName, tableCategory, numberOfGuests) {
+            const basePrices = {
+                'Spicy Valley': { standard: 500, family: 800 },
+                'South Spice': { standard: 600, family: 900 },
+                'Dragon Wok': { standard: 550, family: 850 },
+                'Continental Delight': { standard: 700, family: 1000 }
+            };
+            const perGuestCost = 150;
+
+            const basePrice = basePrices[restaurantName][tableCategory];
+            const guestCost = numberOfGuests * perGuestCost;
+            return basePrice + guestCost;
+        }
+
+        function goToBilling() {
+            try {
+                const restaurantName = document.getElementById('reservation-restaurant').value;
+                const tableCategory = document.getElementById('table-category').value;
+                const numberOfGuests = parseInt(document.getElementById('number-of-guests').value);
+                const reservationDate = document.getElementById('reservation-date').value;
+
+                console.log('Restaurant:', restaurantName);
+                console.log('Table Category:', tableCategory);
+                console.log('Guests:', numberOfGuests);
+                console.log('Date:', reservationDate);
+
+                if (!restaurantName) {
+                    alert('Please select a restaurant first.');
+                    return false;
+                }
+                if (!reservationDate) {
+                    alert('Please select a reservation date.');
+                    return false;
+                }
+                if (!tableCategory) {
+                    alert('Please select a table category.');
+                    return false;
+                }
+                if (tableCategory === 'standard' && numberOfGuests > 4) {
+                    alert('Standard tables are for up to 4 guests only.');
+                    return false;
+                } else if (tableCategory === 'family' && numberOfGuests < 5) {
+                    alert('Family tables are for 5 or more guests.');
+                    return false;
+                }
+
+                const totalAmount = calculateAmount(restaurantName, tableCategory, numberOfGuests);
+                console.log('Calculated Amount:', totalAmount);
+                document.getElementById('calculated-amount').value = totalAmount;
+                document.getElementById('billing-table-category').value = tableCategory;
+                document.getElementById('billing-amount').value = totalAmount;
+
+                showSection('billing');
+                return true;
+            } catch (error) {
+                console.error('Billing error:', error);
+                alert('An error occurred while processing your reservation.');
+                return false;
+            }
+        }
+
+        function completeBooking() {
+            try {
+                const amount = parseFloat(document.getElementById('billing-amount').value);
+                const paymentMethod = document.getElementById('billing-method').value;
+
+                if (amount <= 0) {
+                    alert('Invalid amount. Please try again.');
+                    return false;
+                }
+                if (!paymentMethod) {
+                    alert('Please select a payment method.');
+                    return false;
+                }
+
+                document.getElementById('billing-form').style.display = 'none';
+                document.getElementById('billing-thank-you').style.display = 'block';
+                return false;
+            } catch (error) {
+                console.error('Booking completion error:', error);
+                alert('An error occurred while completing your booking.');
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+            document.getElementById('reservations-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                goToBilling();
+            });
+        });
+    </script>
+</body>
+</html>
