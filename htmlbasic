@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitara Restaurant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa; /* Light blue background */
+        }
+
+        .container {
+            max-width: 800px; /* Enlarged page width */
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00796b; /* Teal color for the restaurant title */
+            margin-bottom: 40px;
+            font-size: 36px; /* Larger title size */
+            text-transform: uppercase;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #004d40; /* Darker teal for form headings */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #00796b; /* Teal button */
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background: #004d40; /* Darker teal on hover */
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Restaurant Name as Page Title -->
+    <h1>Vitara Restaurant</h1>
+
+    <div class="container">
+        <!-- Sign Up Page -->
+        <div id="signupPage">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" placeholder="Enter your name" required>
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Enter a password" required>
+                <button type="button" onclick="goToLogin()">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="hidden">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                <button type="button" onclick="goToReservation()">Login</button>
+            </form>
+        </div>
+
+        <!-- Reservation Page -->
+        <div id="reservationPage" class="hidden">
+            <h2>Reserve Your Table</h2>
+            <form id="reservationForm">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+                <label for="time">Time</label>
+                <input type="time" id="time" required>
+                <label for="guests">Number of Guests</label>
+                <select id="guests" required>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                </select>
+                <label for="ac">Facility</label>
+                <select id="ac" required>
+                    <option value="AC">AC</option>
+                    <option value="Non-AC">Non-AC</option>
+                </select>
+                <label for="tableNumber">Table Number</label>
+                <input type="number" id="tableNumber" placeholder="Enter table number" required>
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" required>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash">Cash</option>
+                </select>
+                <button type="button" onclick="goToPayment()">Reserve Table</button>
+            </form>
+        </div>
+
+        <!-- Payment Receipt Page -->
+        <div id="paymentPage" class="hidden">
+            <h2>Payment Receipt</h2>
+            <p>Thank you for your reservation! Here are your details:</p>
+            <div id="receiptDetails"></div>
+            <button onclick="restart()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        const signupPage = document.getElementById('signupPage');
+        const loginPage = document.getElementById('loginPage');
+        const reservationPage = document.getElementById('reservationPage');
+        const paymentPage = document.getElementById('paymentPage');
+        const receiptDetails = document.getElementById('receiptDetails');
+
+        function goToLogin() {
+            signupPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        }
+
+        function goToReservation() {
+            loginPage.classList.add('hidden');
+            reservationPage.classList.remove('hidden');
+        }
+
+        function goToPayment() {
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const guests = document.getElementById('guests').value;
+            const ac = document.getElementById('ac').value;
+            const tableNumber = document.getElementById('tableNumber').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+
+            receiptDetails.innerHTML = `
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Date:</strong> ${date}</p>
+                <p><strong>Time:</strong> ${time}</p>
+                <p><strong>Guests:</strong> ${guests}</p>
+                <p><strong>Facility:</strong> ${ac}</p>
+                <p><strong>Table Number:</strong> ${tableNumber}</p>
+                <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+            `;
+
+            reservationPage.classList.add('hidden');
+            paymentPage.classList.remove('hidden');
+        }
+
+        function restart() {
+            paymentPage.classList.add('hidden');
+            signupPage.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
